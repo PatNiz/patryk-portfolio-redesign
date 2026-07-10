@@ -10,17 +10,21 @@
   const themeLabel = document.querySelector("[data-theme-label]");
   const themeIcon = document.querySelector("[data-theme-icon]");
 
-  const syncThemeUI = () => {
-    const t = root.dataset.theme === "light" ? "light" : "dark";
-    const next = t === "light" ? "dark" : "light";
-    if (themeLabel) themeLabel.textContent = t === "light" ? "Light" : "Dark";
-    if (themeIcon) themeIcon.textContent = t === "light" ? "☀" : "☾";
-    if (themeBtn) {
-      themeBtn.setAttribute("aria-pressed", String(t === "light"));
-      themeBtn.setAttribute("title", `Switch to ${next === "light" ? "Light" : "Dark"} mode`);
-      themeBtn.setAttribute("aria-label", `Switch to ${next === "light" ? "Light" : "Dark"} mode`);
-    }
-  };
+ const syncThemeUI = () => {
+  const t = root.dataset.theme === "light" ? "light" : "dark";
+  const next = t === "light" ? "dark" : "light";
+
+  if (themeLabel) themeLabel.textContent = t === "light" ? "Light" : "Dark";
+  if (themeIcon) themeIcon.textContent = t === "light" ? "☀" : "☾";
+
+  if (themeBtn) {
+    themeBtn.setAttribute("aria-pressed", String(t === "light"));
+    themeBtn.setAttribute("title", `Switch to ${next === "light" ? "Light" : "Dark"} mode`);
+    themeBtn.setAttribute("aria-label", `Switch to ${next === "light" ? "Light" : "Dark"} mode`);
+  }
+
+  syncSkillBadges();
+};
 
   if (themeBtn) {
     themeBtn.addEventListener("click", () => {
@@ -171,3 +175,21 @@ document.addEventListener("click", (e) => {
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
   applyThemedIcons(getCurrentTheme());
 });
+const syncSkillBadges = () => {
+  const isDark = root.dataset.theme === "dark";
+
+  document.querySelectorAll(".badge").forEach((badge) => {
+    if (!badge.dataset.originalRating) {
+      badge.dataset.originalRating = badge.textContent.trim();
+    }
+
+    const original = badge.dataset.originalRating;
+
+    badge.textContent = isDark
+      ? original
+          .replaceAll("⚫", "__FULL__")
+          .replaceAll("⚪", "⚫")
+          .replaceAll("__FULL__", "⚪")
+      : original;
+  });
+};
