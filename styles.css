@@ -29,6 +29,9 @@
     radial-gradient(1200px 600px at 10% -10%, rgba(110,168,254,.22), transparent 60%),
     radial-gradient(900px 500px at 100% 0%, rgba(138,92,246,.18), transparent 55%),
     linear-gradient(180deg, var(--bg), var(--bg2) 70%);
+  --timeline-dot-1: #6ea8fe;
+  --timeline-dot-2: #8a5cf6;
+  --timeline-dot-ring: rgba(11,18,32,.9);
 }
 
 :root[data-theme="light"]{
@@ -43,6 +46,9 @@
   --accent2: #7a3cff;
   --shadow: 0 12px 30px rgba(16,24,40,.12);
   --topbar: rgba(247,248,251,.82);
+  --timeline-dot-1: #2457ff;
+  --timeline-dot-2: #7a3cff;
+  --timeline-dot-ring: rgba(247,248,251,.95);
 }
 
 *{box-sizing:border-box}
@@ -370,10 +376,14 @@ h2{
 .titem:before{
   content:"";
   position:absolute;
-  left: -2px; top: 6px;
-  width: 14px; height: 14px; border-radius:99px;
-  background: linear-gradient(120deg, var(--accent), var(--accent2));
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--bg) 80%, transparent);
+  left: -2px;
+  top: 6px;
+  width: 14px;
+  height: 14px;
+  border-radius:99px;
+  background: linear-gradient(120deg, var(--timeline-dot-1), var(--timeline-dot-2));
+  box-shadow: 0 0 0 4px var(--timeline-dot-ring);
+  transition: background .2s ease, box-shadow .2s ease;
 }
 .tmeta{color:var(--muted);font-size:13px;margin: 2px 0 10px}
 .tdesc{margin:0;color:var(--text);opacity:.92}
